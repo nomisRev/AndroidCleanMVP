@@ -3,17 +3,17 @@ package be.vergauwen.simon.cleanmvp.ui;
 import android.util.Log;
 import be.vergauwen.simon.cleanmvp.mvp.MVPPresenter;
 
-public class MasterPresenter extends MVPPresenter<MasterContract.View>
-    implements MasterContract.Presenter {
+public class TestPresenter extends MVPPresenter<TestContract.View>
+    implements TestContract.Presenter {
 
     @Override
-    public void attachView(MasterContract.View view) {
+    public void attachView(TestContract.View view) {
         super.attachView(view);
     }
 
     @Override
     public void loadThings() {
-        Log.e("MasterPresenter",".loadThings()");
+        Log.e("TestPresenter",".loadThings()");
         getView().showThings();
     }
 }

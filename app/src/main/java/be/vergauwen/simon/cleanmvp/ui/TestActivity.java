@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 import be.vergauwen.simon.cleanmvp.mvp.MVPActivity;
 
-public class MainActivity extends MVPActivity<MasterPresenter> implements MasterContract.View {
+public class TestActivity extends MVPActivity<TestPresenter> implements TestContract.View {
 
-    private final static String TAG = MainActivity.class.getName();
+    private final static String TAG = TestActivity.class.getName();
+    private boolean thingsShown = false;
 
-    //No need to check if there still is an instance. Only called in onCreate() so clean/fresh activity
     @Override
-    protected MasterPresenter createPresenter() {
-        return new MasterPresenter();
+    protected TestPresenter createPresenter() {
+        return new TestPresenter();
     }
 
     @Override
@@ -35,5 +35,14 @@ public class MainActivity extends MVPActivity<MasterPresenter> implements Master
     @Override
     public void showThings() {
         Log.e(TAG, ".showThings()");
+        thingsShown = true;
+    }
+
+    public boolean isThingsShown() {
+        return thingsShown;
+    }
+
+    public TestPresenter getPresenter() {
+        return presenter;
     }
 }
