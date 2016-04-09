@@ -3,22 +3,23 @@ package be.vergauwen.simon.cleanmvp.mvp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public abstract class MVPActivity<P extends MVPContract.Presenter>
+public abstract class MVPDaggerActivity<P extends MVPContract.Presenter, C extends MVPContract.Component<P>>
     extends AppCompatActivity
     implements MVPContract.View {
-    private P presenter;
+    protected P presenter;
+    protected C component;
 
-    protected abstract P createPresenter();
+    protected abstract void createComponent();
 
-    @Override
-    public final P presenter() {
-        return presenter;
+    protected  P createPresenter(){
+        return component.presenter();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createComponent();
         presenter = createPresenter();
     }
 

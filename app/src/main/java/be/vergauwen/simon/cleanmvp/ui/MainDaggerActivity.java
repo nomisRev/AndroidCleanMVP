@@ -2,16 +2,19 @@ package be.vergauwen.simon.cleanmvp.ui;
 
 import android.os.Bundle;
 import android.util.Log;
-import be.vergauwen.simon.cleanmvp.mvp.MVPActivity;
+import be.vergauwen.simon.cleanmvp.MVPApplication;
+import be.vergauwen.simon.cleanmvp.mvp.MVPDaggerActivity;
 
-public class MainActivity extends MVPActivity<MasterPresenter> implements MasterContract.View {
+public class MainDaggerActivity extends MVPDaggerActivity<MasterPresenter, MasterComponent>
+    implements MasterContract.View {
 
-    private final static String TAG = MainActivity.class.getName();
+    private final static String TAG = MainDaggerActivity.class.getName();
 
-    //No need to check if there still is an instance. Only called in onCreate() so clean/fresh activity
     @Override
-    protected MasterPresenter createPresenter() {
-        return new MasterPresenter();
+    protected void createComponent() {
+        component = DaggerMasterComponent.builder()
+            .applicationComponent(MVPApplication.getComponent())
+            .build();
     }
 
     @Override
@@ -23,7 +26,7 @@ public class MainActivity extends MVPActivity<MasterPresenter> implements Master
     @Override
     protected void onResume() {
         super.onResume();
-        presenter().loadThings();
+        presenter.loadThings();
     }
 
     @Override
