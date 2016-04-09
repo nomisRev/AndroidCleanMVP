@@ -6,33 +6,22 @@ import android.support.v7.app.AppCompatActivity;
 public abstract class MVPActivity<P extends MVPContract.Presenter>
     extends AppCompatActivity
     implements MVPContract.View {
-    private P presenter;
 
+    protected P presenter;
     protected abstract P createPresenter();
-
-    @Override
-    public final P presenter() {
-        return presenter;
-    }
 
     @Override
     @SuppressWarnings("unchecked")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = createPresenter();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        presenter.attach(this);
+        presenter.attachView(this);
     }
 
     @Override
     protected void onDestroy() {
+        presenter.detachView();
         super.onDestroy();
-        presenter.destroy();
     }
 }
 

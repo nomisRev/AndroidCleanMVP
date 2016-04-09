@@ -5,22 +5,21 @@ import java.lang.ref.WeakReference;
 /**
  * @author janvancoppenolle
  */
-public abstract class MVPPresenter<V extends MVPContract.View>
-        implements MVPContract.Presenter<V> {
+public abstract class MVPPresenter<V extends MVPContract.View> implements MVPContract.Presenter<V> {
     private WeakReference<V> viewRef;
 
     @Override
-    public V view() {
+    public V getView() {
         return viewRef == null ? null : viewRef.get();
     }
 
     @Override
-    public void attach(V view) {
+    public void attachView(V view) {
         viewRef = new WeakReference<>(view);
     }
 
     @Override
-    public void destroy() {
+    public void detachView() {
         if (viewRef != null) {
             viewRef.clear();
             viewRef = null;

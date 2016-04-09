@@ -7,13 +7,13 @@ public class MasterPresenter extends MVPPresenter<MasterContract.View>
     implements MasterContract.Presenter {
 
     @Override
-    public void attach(MasterContract.View view) {
-        super.attach(view);
+    public void attachView(MasterContract.View view) {
+        super.attachView(view);
     }
 
     @Override
     public void loadThings() {
         Log.e("MasterPresenter",".loadThings()");
-        view().showThings();
+        getView().showThings();
     }
 }

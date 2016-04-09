@@ -23,7 +23,7 @@ public class MainActivity extends MVPActivity<MasterPresenter> implements Master
     @Override
     protected void onResume() {
         super.onResume();
-        presenter().loadThings();
+        presenter.loadThings();
     }
 
     @Override
