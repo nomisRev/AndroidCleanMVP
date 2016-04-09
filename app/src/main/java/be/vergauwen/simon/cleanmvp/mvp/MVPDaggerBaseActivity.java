@@ -20,12 +20,6 @@ public abstract class MVPDaggerBaseActivity<P extends MVPContract.Presenter, C e
         super.onCreate(savedInstanceState);
         createComponent();
         presenter = createPresenter();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
         presenter.attachView(this);
     }
 

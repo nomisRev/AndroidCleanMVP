@@ -21,7 +21,6 @@ public class MasterActivity extends MVPDaggerBaseActivity<MasterPresenter, Maste
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(TAG, "onCreate()");
-        
     }
 
     @Override
