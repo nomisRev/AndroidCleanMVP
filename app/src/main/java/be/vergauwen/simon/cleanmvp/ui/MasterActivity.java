@@ -3,12 +3,12 @@ package be.vergauwen.simon.cleanmvp.ui;
 import android.os.Bundle;
 import android.util.Log;
 import be.vergauwen.simon.cleanmvp.MVPApplication;
-import be.vergauwen.simon.cleanmvp.mvp.MVPDaggerActivity;
+import be.vergauwen.simon.cleanmvp.mvp.MVPDaggerBaseActivity;
 
-public class MainDaggerActivity extends MVPDaggerActivity<MasterPresenter, MasterComponent>
+public class MasterActivity extends MVPDaggerBaseActivity<MasterPresenter, MasterComponent>
     implements MasterContract.View {
 
-    private final static String TAG = MainDaggerActivity.class.getName();
+    private final static String TAG = MasterActivity.class.getName();
 
     @Override
     protected void createComponent() {
@@ -21,6 +21,7 @@ public class MainDaggerActivity extends MVPDaggerActivity<MasterPresenter, Maste
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(TAG, "onCreate()");
+        
     }
 
     @Override

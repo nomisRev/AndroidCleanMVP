@@ -3,15 +3,14 @@ package be.vergauwen.simon.cleanmvp.mvp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public abstract class MVPDaggerActivity<P extends MVPContract.Presenter, C extends MVPContract.Component<P>>
-    extends AppCompatActivity
-    implements MVPContract.View {
+public abstract class MVPDaggerBaseActivity<P extends MVPContract.Presenter, C extends MVPContract.Component<P>>
+    extends AppCompatActivity implements MVPContract.View {
     protected P presenter;
     protected C component;
 
     protected abstract void createComponent();
 
-    protected  P createPresenter(){
+    protected P createPresenter() {
         return component.presenter();
     }
 
@@ -27,13 +26,13 @@ public abstract class MVPDaggerActivity<P extends MVPContract.Presenter, C exten
     @SuppressWarnings("unchecked")
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        presenter.attach(this);
+        presenter.attachView(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.destroy();
+        presenter.detachView();
     }
 }
 

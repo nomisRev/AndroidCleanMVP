@@ -5,13 +5,12 @@ package be.vergauwen.simon.cleanmvp.mvp;
  */
 public interface MVPContract {
     interface View {
-        //P presenter();
     }
 
     interface Presenter<V extends View> {
-        V view();
-        void attach(V view);
-        void destroy();
+        V getView();
+        void attachView(V view);
+        void detachView();
     }
 
     interface Component<P extends Presenter> {

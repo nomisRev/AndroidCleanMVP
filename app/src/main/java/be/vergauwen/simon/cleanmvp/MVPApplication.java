@@ -6,7 +6,7 @@ import be.vergauwen.simon.cleanmvp.di.ApplicationModule;
 import be.vergauwen.simon.cleanmvp.di.DaggerApplicationComponent;
 
 public class MVPApplication extends Application {
-
+    
     private static ApplicationComponent component;
 
     @Override
