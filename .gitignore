@@ -12,9 +12,6 @@
 bin/
 gen/
 out/
-.gradle/
-build/
-local.properties
 proguard/
 *.log
 .navigation/
