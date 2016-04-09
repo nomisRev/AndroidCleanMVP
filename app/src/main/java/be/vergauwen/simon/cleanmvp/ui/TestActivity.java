@@ -5,14 +5,16 @@ import android.util.Log;
 import be.vergauwen.simon.cleanmvp.MVPApplication;
 import be.vergauwen.simon.cleanmvp.mvp.MVPDaggerBaseActivity;
 
-public class MasterActivity extends MVPDaggerBaseActivity<MasterPresenter, MasterComponent>
-    implements MasterContract.View {
+public class TestActivity extends MVPDaggerBaseActivity<TestPresenter, TestComponent>
+    implements TestContract.View {
 
-    private final static String TAG = MasterActivity.class.getName();
+    private final static String TAG = TestActivity.class.getName();
+
+    private boolean thingsShown = false;
 
     @Override
     protected void createComponent() {
-        component = DaggerMasterComponent.builder()
+        component = DaggerTestComponent.builder()
             .applicationComponent(MVPApplication.getComponent())
             .build();
     }
@@ -33,10 +35,20 @@ public class MasterActivity extends MVPDaggerBaseActivity<MasterPresenter, Maste
     protected void onDestroy() {
         Log.e(TAG, "onDestroy()");
         super.onDestroy();
+
     }
 
     @Override
     public void showThings() {
         Log.e(TAG, ".showThings()");
+        thingsShown = true;
+    }
+
+    public boolean isThingsShown() {
+        return thingsShown;
+    }
+
+    public TestPresenter getPresenter() {
+        return presenter;
     }
 }

@@ -5,24 +5,24 @@ import android.util.Log;
 import be.vergauwen.simon.cleanmvp.mvp.MVPPresenter;
 import javax.inject.Inject;
 
-public class MasterPresenter extends MVPPresenter<MasterContract.View>
-    implements MasterContract.Presenter {
+public class TestPresenter extends MVPPresenter<TestContract.View>
+    implements TestContract.Presenter {
 
     private Context context;
 
     @Inject
-    public MasterPresenter(Context context) {
+    public TestPresenter(Context context) {
         this.context = context;
     }
 
     @Override
-    public void attachView(MasterContract.View view) {
+    public void attachView(TestContract.View view) {
         super.attachView(view);
     }
 
     @Override
     public void loadThings() {
-        Log.e("MasterPresenter", ".loadThings()");
+        Log.e("TestPresenter", ".loadThings()");
         getView().showThings();
     }
 }

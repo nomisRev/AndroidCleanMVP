@@ -7,6 +7,6 @@ import dagger.Component;
 
 @ActivityScope
 @Component(dependencies = ApplicationComponent.class)
-public interface MasterComponent extends MVPContract.Component<MasterPresenter> {
-    MasterPresenter presenter();
+public interface TestComponent extends MVPContract.Component<TestPresenter> {
+    TestPresenter presenter();
 }
