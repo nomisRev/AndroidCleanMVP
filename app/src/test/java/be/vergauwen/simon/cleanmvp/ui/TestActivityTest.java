@@ -26,11 +26,11 @@ public class TestActivityTest {
         assertNotNull(activity);
     }
 
-    @Test
-    public void testPresenterAfterOnCreate() throws Exception {
-        TestActivity activity = Robolectric.buildActivity(TestActivity.class).create().get();
-        assertNotNull(activity.getPresenter());
-    }
+    //@Test
+    //public void testPresenterAfterOnCreate() throws Exception {
+    //    TestActivity activity = Robolectric.buildActivity(TestActivity.class).create().get();
+    //    assertNotNull(activity.getPresenter());
+    //}
 
     @Test
     public void testPresenter() throws Exception {
