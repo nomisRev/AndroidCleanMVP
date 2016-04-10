@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import be.vergauwen.simon.cleanmvp.mvp.MVPActivity
 
-class TestActivity : MVPActivity<TestPresenter>(), TestContract.View {
+class TestActivity : MVPActivity<TestContract.View, TestPresenter>(), TestContract.View {
   var isThingsShown = false
     private set
 
@@ -30,5 +30,9 @@ class TestActivity : MVPActivity<TestPresenter>(), TestContract.View {
   override fun showThings() {
     Log.e("TestActivity", ".showThings()")
     isThingsShown = true
+  }
+
+  fun testPresenterNotNull() : Boolean{
+    return presenter != null;
   }
 }
