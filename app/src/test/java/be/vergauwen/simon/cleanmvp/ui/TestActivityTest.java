@@ -3,6 +3,7 @@ package be.vergauwen.simon.cleanmvp.ui;
 import android.app.Activity;
 import be.vergauwen.simon.cleanmvp.BuildConfig;
 import be.vergauwen.simon.cleanmvp.RobolectricUnitTestRunner;
+import be.vergauwen.simon.ui.TestActivity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,17 +32,25 @@ public class TestActivityTest {
     @Test
     public void testPresenterAfterOnCreate() throws Exception{
         TestActivity activity = Robolectric.buildActivity(TestActivity.class).create().get();
-        assertNotNull(activity.getPresenter());
+        assertNotNull(activity.testPresenterNotNull());
     }
 
     @Test
-    public void testPresenter() throws Exception{
+    public void testShowThings() throws Exception{
         TestActivity activity = Robolectric.buildActivity(TestActivity.class).create().get();
         assertFalse(activity.isThingsShown());
         activity.showThings();
         assertTrue(activity.isThingsShown());
     }
 
+    @Test
+    public void testPresenterLoadThings() throws Exception{
+        TestActivity activity = Robolectric.buildActivity(TestActivity.class).create().get();
+        assertFalse(activity.isThingsShown());
+        activity.presenterLoadThings();
+        assertTrue(activity.isThingsShown());
+    }
+    
     @Test
     public void testOnResume() throws Exception{
         TestActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();

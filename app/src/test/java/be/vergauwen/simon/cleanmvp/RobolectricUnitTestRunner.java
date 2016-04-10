@@ -1,6 +1,7 @@
 package be.vergauwen.simon.cleanmvp;
 
 import android.support.annotation.NonNull;
+import be.vergauwen.simon.MVPApplication;
 import java.lang.reflect.Method;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
