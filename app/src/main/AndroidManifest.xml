@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".MVPApplication">
-        <activity android:name=".ui.TestActivity">
+        <activity android:name=".ui.TestAppCompatActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -19,35 +19,43 @@ class TestActivityTest {
 
   @Test
   fun preConditions() {
-    val activity = Robolectric.buildActivity(TestActivity::class.java).get()
+    val activity = Robolectric.buildActivity(TestAppCompatActivity::class.java).get()
     assertFalse(activity.isThingsShown)
   }
 
   @Test
   fun testPresenterLazyAssignment() {
-    val activity = Robolectric.buildActivity(TestActivity::class.java).get()
+    val activity = Robolectric.buildActivity(TestAppCompatActivity::class.java).get()
     assertTrue(activity.testPresenterNotNull())
   }
 
   @Test
-  fun testPresenter() {
-    val activity = Robolectric.buildActivity(TestActivity::class.java).create().get()
+  fun testShowThings() {
+    val activity = Robolectric.buildActivity(TestAppCompatActivity::class.java).create().get()
     assertFalse(activity.isThingsShown)
     activity.showThings()
     assertTrue(activity.isThingsShown)
   }
 
   @Test
+  fun testPresenterLoadThings() {
+    val activity = Robolectric.buildActivity(TestAppCompatActivity::class.java).create().get()
+    assertFalse(activity.isThingsShown)
+    activity.presenterLoadThings()
+    assertTrue(activity.isThingsShown)
+  }
+
+  @Test
   fun testOnResume() {
     val activity = Robolectric.buildActivity(
-        TestActivity::class.java).create().start().resume().get()
+        TestAppCompatActivity::class.java).create().start().resume().get()
     assertTrue(activity.isThingsShown)
   }
 
   @Test
   fun testOnDestroy() {
     val activity = Robolectric.buildActivity(
-        TestActivity::class.java).create().start().resume().pause().stop().destroy().get()
+        TestAppCompatActivity::class.java).create().start().resume().pause().stop().destroy().get()
     assertTrue(activity.isDestroyed)
   }
 

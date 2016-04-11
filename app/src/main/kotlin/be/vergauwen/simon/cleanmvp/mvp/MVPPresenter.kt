@@ -3,12 +3,11 @@ package be.vergauwen.simon.cleanmvp.mvp
 import java.lang.ref.WeakReference
 
 abstract class MVPPresenter<V : MVPContract.View> : MVPContract.Presenter<V> {
-  private var viewRef: WeakReference<MVPContract.View>? = null
+  private var viewRef: WeakReference<V>? = null
 
-  @Suppress("UNCHECKED_CAST")
-  override fun getView(): V? = if (viewRef == null) null else viewRef?.get() as V?
+  override fun getView(): V? = if (viewRef == null) null else viewRef?.get()
 
-  override fun attachView(view: MVPContract.View) {
+  override fun attachView(view: V) {
     viewRef = WeakReference(view)
   }
 

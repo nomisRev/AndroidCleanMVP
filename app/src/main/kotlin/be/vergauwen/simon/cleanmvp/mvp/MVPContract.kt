@@ -5,7 +5,7 @@ interface MVPContract{
 
   interface Presenter<V : View>{
     fun getView() : V?
-    fun attachView(view : MVPContract.View)
+    fun attachView(view : V)
     fun detachView()
   }
 }
