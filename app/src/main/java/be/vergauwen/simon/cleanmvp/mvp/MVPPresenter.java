@@ -2,9 +2,6 @@ package be.vergauwen.simon.cleanmvp.mvp;
 
 import java.lang.ref.WeakReference;
 
-/**
- * @author janvancoppenolle
- */
 public abstract class MVPPresenter<V extends MVPContract.View> implements MVPContract.Presenter<V> {
     private WeakReference<V> viewRef;
 

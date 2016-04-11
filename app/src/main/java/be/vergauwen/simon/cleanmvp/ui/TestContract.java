@@ -2,7 +2,7 @@ package be.vergauwen.simon.cleanmvp.ui;
 
 import be.vergauwen.simon.cleanmvp.mvp.MVPContract;
 
-public interface TestContract {
+interface TestContract {
     interface View extends MVPContract.View {
         void showThings();
     }

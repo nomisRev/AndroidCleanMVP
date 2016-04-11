@@ -3,11 +3,11 @@ package be.vergauwen.simon.cleanmvp.mvp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public abstract class MVPActivity<P extends MVPContract.Presenter>
-    extends AppCompatActivity
+public abstract class MVPActivity<P extends MVPContract.Presenter> extends AppCompatActivity
     implements MVPContract.View {
 
     protected P presenter;
+
     protected abstract P createPresenter();
 
     @Override

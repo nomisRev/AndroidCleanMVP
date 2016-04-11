@@ -1,8 +1,5 @@
 package be.vergauwen.simon.cleanmvp.mvp;
 
-/**
- * @author janvancoppenolle
- */
 public interface MVPContract {
     interface View {}
 
