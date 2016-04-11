@@ -1,9 +1,142 @@
 # AndroidCleanMVP
 
-## vanilla-mvp
+In the text below you will find all info about the demo.
+We will not discuss the model as this is the structure of your data and is pretty straight forward.
 
-* A setup with no libs. Presenter instace does not get retained over config change
+## vanilla-mvp / kotlin-vanilla-mvp
 
-## dagger-mvp
+* There is a different setup for java/kotlin because generics are handled differently. Kotlin is stricter than java when it comes to generics.  More about that below.
+
+* A setup with no libs.
+
+* Presenter instace does not get retained over config change.
+  * Presenter should not be responsible for retaining data during config change (Single responsibility principle by Robert C. Martin). The presenter should only be responsible for business logic, it can load/save states but does not retain them. Retaining data during config change is out of the scope of this demos, there are many different possibilities and many different use casses so think carefully before choosing a solution.
+
+### Usage
+##### MVPContract
+  The `MVPContract` is the contract between View & Presenter. This means the contract of what functionality (methods) the view can rely on the presenter for and the other way around.
+```
+interface ExampleContract {
+  interface View extends MVPContract.View {
+    void showThings();
+  }
+  
+  interface Presenter extends MVPContract.Presenter<View> {
+     void loadThings();
+  }
+}
+```
+  In the above shown code, the view can rely on the presenter to retrieve (load) things. And in return when the presenter has retrieved things, it can rely on the view to show them.
+  
+  Since the java/kotlin code for the contract solely consist of interfaces, we will not discuss this any further.
+  
+##### MVPActivity
+
+There is a very important difference between the java and kotlin code here. As metioned above, kotlin and java handle generics differently. In the code comparison below it will become clear.
+```
+Java: 
+public abstract class MVPActivity<P extends MVPContract.Presenter> extends AppCompatActivity implements MVPContract.View
+
+Kotlin:
+abstract class MVPAppCompatActivity<V : MVPContract.View, P : MVPContract.Presenter<V>> : AppCompatActivity(), MVPContract.View
+```
+When we inspect the base `MVPContract` you'll notice that the `Presenter` has a generic type, in kotlin we're required to specify this generic type. And as a result we have to explicity cast `MVPAppCompatActivity` to `V` when attaching it to the presenter.
+```
+public interface MVPContract {
+  interface View {}
+
+  interface Presenter<V extends View> {
+     V getView();
+    void attachView(V view);
+    void detachView();
+  }
+```
+
+In contrast to Kotlin Java will cast `MVPAppCompatActivity` to `V` under the hood, and for that reason you don't have to specify the generic the of the `Presenter`.
+
+**All that is left to do is override the abstract class createPresenter() when defining your Activity and you're good to go**
+
+##### MVPPresenter
+
+```
+Java: 
+public abstract class MVPPresenter<V extends MVPContract.View> implements MVPContract.Presenter<V> 
+
+Kotlin:
+abstract class MVPPresenter<V : MVPContract.View> : MVPContract.Presenter<V>
+```
+
+There is no difference between the definition of the `MVPPresenter` in Java or Kotlin. And all to setup your Presenter is extend tha abstract class and define override the methods you have defined in the contract.
+
+
+## dagger-mvp / kotlin-dagger-mvp
 
 * A setup with dagger. Presenter gets created by dagger with the necessary dependencies.
+
+* All the principles from above remain the same. But to make this setup truly wonderfull, we can use dagger to automatically create the presenters and inject them with the dependencies that we want.
+
+* Again in this setup there is a minor difference between Kotlin and Java. The reason is the same as above
+  >You'll notice that the Presenter has a generic type, in kotlin we're required to specify this generic type.
+
+```
+Java:
+    interface MVPContract.Component<P extends Presenter> {
+        P presenter();
+    }
+
+Kotlin:
+  interface MVPContract.Component<V : View, P : Presenter<V>> {
+    fun presenter(): P
+  }
+```
+
+That was pretty straight forward, a minor change is also visible in the definition of the abstract BaseActivity class.
+
+```
+Java:
+public abstract class MVPDaggerBaseActivity<P extends MVPContract.Presenter, C extends MVPContract.Component<P>> extends AppCompatActivity implements MVPContract.View 
+  
+Kotlin:
+abstract class MVPDaggerBaseActivity<V : MVPContract.View, P : MVPContract.Presenter<V>, C : MVPContract.Component<V, P>> : AppCompatActivity(), MVPContract.View
+```
+
+##### MVPComponent
+
+Now what is this magic MVPComponent?
+The `MVPComponent`, is the component that belongs to your activity and that takes care of making presenter for you. And injects the `Presenter` with the dependencies that you want in your `Presenter`.
+
+The `MVPComponent` does more than just that! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
+
+The MVPComponent
+```
+@ActivityScope
+@Component(dependencies = ApplicationComponent.class)
+public interface TestComponent extends MVPContract.Component<TestPresenter> {
+    TestPresenter presenter();
+    Context applicationContext();
+}
+```
+
+The constructor of TestPresenter
+```
+@Inject
+public TestPresenter(TestDependency testDependency) {
+  this.testDependency = testDependency;
+}
+```
+
+The ApplicationComponent
+```
+@ApplicationScope
+@Component(modules = ApplicationModule.class)
+public interface ApplicationComponent {
+    Context getApplicationContext();
+    TestDependency getTestDependency();
+}
+```
+
+Dagger sees that you need a `TestPresenter`, defined in `TestComponent` and wants to create it for you. While doing so, Dagger sees that your `TestPresenter` has a constructor annotated with the `@Inject` annotation and will see if it has any matching dependencies. Since `TestComponent` depends on `ApplicationComponent` the dependency `TestDependency` defined in `ApplicationComponent` will be provided/injected into the constructor of TestPresenter and **poof** you have a `TestPresenter` instance that is injected with the `TestDependency` instance created in our ApplicationModule.
+
+Now we have the created `TestPresenter` available in our view trough the component.
+
+**This method works extremely well to inject instances in your presenter, that can easily be mocked out for tests**
