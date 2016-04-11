@@ -32,6 +32,7 @@ class TestActivity : MVPActivity<TestContract.View, TestPresenter>(), TestContra
     isThingsShown = true
   }
 
+  @Suppress("SENSELESS_COMPARISON") //Useless in kotlin => lazy assignment
   fun testPresenterNotNull() : Boolean{
     return presenter != null;
   }
