@@ -150,7 +150,7 @@ Now we have the created `TestPresenter` available in our view trough the compone
 2. View lifecycle
  * With previous discussed issue, we are sure that when a view method gets called it occurs between `onCreate()` and `onDestroy()`. Another issue is the issue of state loss, `java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState`. There are other side effects that can occur because not building in protection for this, an example is launching an activity when the app is in background. But that topic is out of scope for this repo. Let's just say we want to prevent this.
  
-<img src="/save&restore-state.png" alt="Save & restore state" width="148" height="329">
+<img src="/save&restore-state.png" alt="Save & restore state">
 
  * As you can see in the above shown diagram `onRestoreInstanceState()` gets called between `onStart()` and `onResume()`, so the earliest point we should **resume** normal behavior is when `onResume()` gets called. The reasoning can be applied for `onSaveInstanceState()`, we will **pause** normal behavior when `onPause()` gets called.
 
