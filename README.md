@@ -140,3 +140,18 @@ Dagger sees that you need a `TestPresenter`, defined in `TestComponent` and want
 Now we have the created `TestPresenter` available in our view trough the component.
 
 **This method works extremely well to inject instances in your presenter, that can easily be mocked out for tests**
+
+## Important notes
+
+1. Calling view methods
+ * There is a key difference between the Kotlin and the Java example. Kotlin has Null safety, and therefor when a view method gets called from the presenter an error should never occur. `.?` takes care of that for you. If the view is null, the method will simply not be called and there is no problem.
+ * The same approach doesn't work in Java. When the view is null you will get a `NullPointerException`. Ah, our dear friend finally appears. No problem, just do a null check before calling the method or add a `boolean isViewAttached()` method to our `MVPPresenter` baseclass.
+
+2. View lifecycle
+ * With previous discussed issue, we are sure that when a view method gets called it occurs between `onCreate()` and `onDestroy()`. Another issue is the issue of state loss, `java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState`. There are other side effects that can occur because not building in protection for this, an example is launching an activity when the app is in background. But that topic is out of scope for this repo. Let's just say we want to prevent this.
+ 
+ ![Save & restore state](/save&restore-state.png?raw=true "Save & Restore state")
+
+* As you can see in the above shown diagram `onRestoreInstanceState()` gets called between `onStart()` and `onResume()`, so the earliest point we should **resume** normal behavior is when `onResume()` gets called. The reasoning can be applied for `onSaveInstanceState()`, we will **pause** normal behavior when `onPause()` gets called.
+
+* Earlier I mentioned the single responsibility rule, the same applies here. The view should only handle UI, saving data state or other business logic that the presenter should deal with can still proceed as otherwise. For example, a network call can return a result after the view went in the background. Saving this data might be essential in order to show the correct data when the view comes into the foreground again.
