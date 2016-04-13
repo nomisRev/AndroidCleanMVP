@@ -10,4 +10,6 @@ public interface TestContract {
     interface Presenter extends MVPContract.Presenter<View> {
         void loadThings();
     }
+
+    interface Component extends MVPContract.Component<Presenter> {}
 }
