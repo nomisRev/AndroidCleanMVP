@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class TestPresenter
 @Inject
-constructor(private val context: Context) : MVPPresenter<TestContract.View>(), TestContract.Presenter {
+constructor(private val context: Context) : MVPPresenter<TestContract.View>(), TestContract.Presenter<TestContract.View> {
 
   override fun loadThings() {
     Log.e("TestPresenter", ".loadThings()")

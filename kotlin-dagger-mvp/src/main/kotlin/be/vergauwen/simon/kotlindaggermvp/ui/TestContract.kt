@@ -7,7 +7,9 @@ interface TestContract {
     fun showThings()
   }
 
-  interface Presenter : MVPContract.Presenter<View> {
+  interface Presenter<V : View> : MVPContract.Presenter<V> {
     fun loadThings()
   }
+
+  interface Component<V : View ,P : Presenter<V>> : MVPContract.Component<V,P>
 }
