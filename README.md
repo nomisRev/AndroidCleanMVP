@@ -78,14 +78,15 @@ There is no difference between the definition of the `MVPPresenter` in Java or K
 * Again in this setup there is a minor difference between Kotlin and Java. The reason is the same as above
   >You'll notice that the Presenter has a generic type, in kotlin we're required to specify this generic type.
 
+* We add the following to the T
 ```
 Java:
-    interface MVPContract.Component<P extends Presenter> {
-        P presenter();
-    }
+  interface Component<P extends Presenter> {
+    P presenter();
+  }
 
 Kotlin:
-  interface MVPContract.Component<V : View, P : Presenter<V>> {
+  interface Component<V : View, P : Presenter<V>> {
     fun presenter(): P
   }
 ```
