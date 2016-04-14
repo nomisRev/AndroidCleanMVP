@@ -5,12 +5,12 @@ We will not discuss the model as this is the structure of your data and is prett
 
 ## vanilla-mvp / kotlin-vanilla-mvp
 
-* There is a different setup for java/kotlin because generics are handled differently. Kotlin is stricter than java when it comes to generics.  More about that below.
+* There is a different setup for Java/Kotlin because generics are handled differently. Kotlin is stricter than Java when it comes to generics.  More about that below.
 
 * A setup with no libs.
 
-* Presenter instace does not get retained over config change.
-  * Presenter should not be responsible for retaining data during config change (Single responsibility principle by Robert C. Martin). The presenter should only be responsible for business logic, it can load/save states but does not retain them. Retaining data during config change is out of the scope of this demos, there are many different possibilities and many different use casses so think carefully before choosing a solution.
+* Presenter instance does not get retained over config change.
+  * Presenter should not be responsible for retaining data during config change (Single responsibility principle by Robert C. Martin). The presenter should only be responsible for business logic, it can load/save states but does not retain them. Retaining data during config change is out of the scope of this demos, there are many different possibilities and many different use cases so think carefully before choosing a solution.
 
 ### Usage
 ##### MVPContract
@@ -28,11 +28,11 @@ interface ExampleContract {
 ```
   In the above shown code, the view can rely on the presenter to retrieve (load) things. And in return when the presenter has retrieved things, it can rely on the view to show them.
   
-  Since the java/kotlin code for the contract solely consist of interfaces, we will not discuss this any further.
+  Since the Java/Kotlin code for the contract solely consist of interfaces, we will not discuss this any further.
   
 ##### MVPActivity
 
-There is a very important difference between the java and kotlin code here. As metioned above, kotlin and java handle generics differently. In the code comparison below it will become clear.
+There is a very important difference between the Java and Kotlin code here. As mentioned above, Kotlin and Java handle generics differently. In the code comparison below it will become clear.
 ```
 Java: 
 public abstract class MVPActivity<P extends MVPContract.Presenter> extends AppCompatActivity implements MVPContract.View
@@ -40,7 +40,7 @@ public abstract class MVPActivity<P extends MVPContract.Presenter> extends AppCo
 Kotlin:
 abstract class MVPAppCompatActivity<V : MVPContract.View, P : MVPContract.Presenter<V>> : AppCompatActivity(), MVPContract.View
 ```
-When we inspect the base `MVPContract` you'll notice that the `Presenter` has a generic type, in kotlin we're required to specify this generic type. And as a result we have to explicity cast `MVPAppCompatActivity` to `V` when attaching it to the presenter.
+When we inspect the base `MVPContract` you'll notice that the `Presenter` has a generic type, in Kotlin we're required to specify this generic type. And as a result we have to explicitly cast `MVPAppCompatActivity` to `V` when attaching it to the presenter.
 ```
 public interface MVPContract {
   interface View {}
@@ -66,17 +66,17 @@ Kotlin:
 abstract class MVPPresenter<V : MVPContract.View> : MVPContract.Presenter<V>
 ```
 
-There is no difference between the definition of the `MVPPresenter` in Java or Kotlin. And all to setup your Presenter is extend tha abstract class and define override the methods you have defined in the contract.
+There is no difference between the definition of the `MVPPresenter` in Java or Kotlin. All you need to do to setup your Presenter is extend the abstract class and override the methods you have defined in the contract.
 
 
 ## dagger-mvp / kotlin-dagger-mvp
 
 * A setup with dagger. Presenter gets created by dagger with the necessary dependencies.
 
-* All the principles from above remain the same. But to make this setup truly wonderfull, we can use dagger to automatically create the presenters and inject them with the dependencies that we want.
+* All the principles from above remain the same. But to make this setup truly wonderful, we can use dagger to automatically create the presenters and inject them with the dependencies that we want.
 
 * Again in this setup there is a minor difference between Kotlin and Java. The reason is the same as above
-  >You'll notice that the Presenter has a generic type, in kotlin we're required to specify this generic type.
+  >You'll notice that the Presenter has a generic type, in Kotlin we're required to specify this generic type.
 
 * We add the following to the MVPContract, and when creating the view specific `Component` you can specify the dependencies your view requires in this component. But more about that below.
 ```
@@ -147,7 +147,7 @@ Now we have the created `TestPresenter` available in our view trough the compone
 1. Calling view methods
  * There is a key difference between the Kotlin and the Java example. Kotlin has Null safety, and therefor when a view method gets called from the presenter an error should never occur. `.?` takes care of that for you. If the view is null, the method will simply not be called and there is no problem.
  
- * The same approach doesn't work in Java. When the view is null you will get a `NullPointerException`. Ah, our dear friend finally appears. No problem, just do a null check before calling the method or add a `boolean isViewAttached()` method to our `MVPPresenter` baseclass.
+ * The same approach doesn't work in Java. When the view is null you will get a `NullPointerException`. Ah, our dear friend finally appears. No problem, just do a null check before calling the method or add a `boolean isViewAttached()` method to our `MVPPresenter` base class.
 
 2. View lifecycle
  * With previous discussed issue, we are sure that when a view method gets called it occurs between `onCreate()` and `onDestroy()`. Another issue is the issue of state loss, `java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState`. There are other side effects that can occur because not building in protection for this, an example is launching an activity when the app is in background. But that topic is out of scope for this repo. Let's just say we want to prevent this.
