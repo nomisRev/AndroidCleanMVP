@@ -8,7 +8,7 @@ import be.vergauwen.simon.kotlindaggermvp.di.DaggerApplicationComponent
 internal class MVPApplication : Application() {
 
   companion object {
-    lateinit var component: ApplicationComponent
+    @JvmStatic lateinit var component: ApplicationComponent
   }
 
   override fun onCreate() {
